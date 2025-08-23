@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import { ProductsService } from './products.service';
 import { CqrsModule } from '@nestjs/cqrs';
 import { ProductEntity } from './entities/product.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
