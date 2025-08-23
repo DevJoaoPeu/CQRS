@@ -6,12 +6,9 @@ import { ProductsController } from './products.controller';
 import { CreateProductHandler } from './comands/handlers/create-product.handler';
 import { GetProductsHandler } from './queries/handlers/get-products.handler';
 
-export const CommandHandlers = [CreateProductHandler];
-export const QueryHandlers = [GetProductsHandler];
-
 @Module({
-  imports: [TypeOrmModule.forFeature([ProductEntity]), CqrsModule],
-  providers: [...CommandHandlers, ...QueryHandlers],
+  imports: [TypeOrmModule.forFeature([ProductEntity]), CqrsModule.forRoot()],
+  providers: [GetProductsHandler, CreateProductHandler],
   controllers: [ProductsController]
 })
 export class ProductsModule {}

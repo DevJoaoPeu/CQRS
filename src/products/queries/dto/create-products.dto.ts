@@ -1,4 +1,4 @@
-import { isBoolean, IsNumber, IsString } from "class-validator";
+import { IsNumber, IsString } from "class-validator";
 
 export class CreateProductsDto {
     @IsString()
@@ -7,6 +7,5 @@ export class CreateProductsDto {
     @IsNumber()
     price: number;
     
-    @isBoolean()
     active: boolean;
 }
