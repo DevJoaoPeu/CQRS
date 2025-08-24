@@ -1,8 +1,8 @@
 import { Command } from "@nestjs/cqrs";
-import { ProductEntity } from "src/products/entities/product.entity";
+import { ProductWritingEntity } from "src/products/entities/product-writing.entity";
 
 export class CreateProductCommand extends Command<
-  ProductEntity
+  ProductWritingEntity
 >{
   constructor(
     public readonly name: string,
