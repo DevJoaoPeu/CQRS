@@ -1,19 +1,25 @@
-import { CommandHandler, ICommandHandler } from "@nestjs/cqrs";
+import { CommandHandler, EventBus, ICommandHandler } from "@nestjs/cqrs";
 import { CreateProductCommand } from "../impl/create-product.command";
 import { ProductWritingEntity } from "src/products/entities/product-writing.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { ProductEvent } from "src/products/events/impl/product.event";
 
 @CommandHandler(CreateProductCommand)
 export class CreateProductHandler implements ICommandHandler<CreateProductCommand> {
   constructor(
     @InjectRepository(ProductWritingEntity)
     private readonly productEntity: Repository<ProductWritingEntity>,
+    private readonly eventBus: EventBus
   ) {}
 
   async execute(command: CreateProductCommand): Promise<ProductWritingEntity> {
-    const { name, price, active } = command;
-    const product = this.productEntity.create({ name, price, active });
-    return this.productEntity.save(product);
+    const product = this.productEntity.create(command);
+    const saved = await this.productEntity.save(product);
+    const { id, active, name, price } = saved
+
+    this.eventBus.publish(new ProductEvent(id, name, price, active))
+
+    return saved
   }
 }
