@@ -14,8 +14,7 @@ export class CreateProductHandler implements ICommandHandler<CreateProductComman
   ) {}
 
   async execute(command: CreateProductCommand): Promise<ProductWritingEntity> {
-    const product = this.productEntity.create(command);
-    const saved = await this.productEntity.save(product);
+    const saved = await this.productEntity.save(command);
     const { id, active, name, price } = saved
 
     this.eventBus.publish(new ProductEvent(id, name, price, active))

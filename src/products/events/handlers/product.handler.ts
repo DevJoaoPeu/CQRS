@@ -12,14 +12,6 @@ export class ProductHandler implements IEventHandler<ProductEvent> {
     ) {}
 
     async handle(event: ProductEvent) {
-        const { id, active, name, price } = event
-
-        const productRead = await this.productReading.create({
-            name,
-            price,
-            active
-        })
-
-        await this.productReading.save(productRead)
+        await this.productReading.save(event)
     }
 }
